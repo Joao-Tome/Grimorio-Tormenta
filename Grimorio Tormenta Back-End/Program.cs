@@ -1,3 +1,7 @@
+using GrimorioTormenta.Business.Conversor;
+using GrimorioTormenta.Business.Instancia;
+using GrimorioTormenta.Intefaces.Conversor;
+using GrimorioTormenta.Intefaces.Instancia;
 using GrimorioTormenta.Intefaces.Repositorio;
 using GrimorioTormenta.Model.Models;
 using GrimorioTormenta.Repositorio.Config;
@@ -15,6 +19,10 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("Connection");
 builder.Services.AddScoped<DbContext, AppDbContext>();
 builder.Services.AddScoped<IGrupoRepositorio,GrupoRepositorio>();
+
+builder.Services.AddScoped<IGrupoConversor, GrupoConversor>();
+builder.Services.AddScoped<IGrupoInstancia, GrupoInstancia>();
+
 builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 var app = builder.Build();

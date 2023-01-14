@@ -1,4 +1,6 @@
-﻿using GrimorioTormenta.Intefaces.Repositorio;
+﻿using GrimorioTormenta.Intefaces.Instancia;
+using GrimorioTormenta.Intefaces.Repositorio;
+using GrimorioTormenta.Model.DTO;
 using GrimorioTormenta.Model.Models;
 using GrimorioTormenta.Repositorio.Config;
 using GrimorioTormenta.Repositorio.Repositorio;
@@ -12,18 +14,17 @@ namespace Grimorio_Tormenta_Back_End.Controllers
     [ApiController]
     public class GrupoController : ControllerBase
     {
-        private readonly IGrupoRepositorio rep;
+        private readonly IGrupoInstancia _instancia;
 
-        public GrupoController(IGrupoRepositorio GrupoRep)
+        public GrupoController(IGrupoInstancia grupoInstancia)
         {
-            rep = GrupoRep;
+            _instancia = grupoInstancia;
         }
 
-        [Route("GetAll")]
         [HttpGet]
-        public IEnumerable<GrupoModel>? GetAll()
+        public IEnumerable<GrupoDTO>? GetAll()
         {
-            return rep.GetAll();
+            return _instancia.GetInstancias();
         }
     }
 }

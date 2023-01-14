@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GrimorioTormenta.Intefaces\GrimorioTormenta.Intefaces.csproj" />
+    <ProjectReference Include="..\GrimorioTormenta.Model\GrimorioTormenta.Model.csproj" />
+  </ItemGroup>
+
 </Project>
