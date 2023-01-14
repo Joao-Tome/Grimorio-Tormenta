@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grimorio Tormenta Back-End", "Grimorio Tormenta Back-End\Grimorio Tormenta Back-End.csproj", "{E990A77B-AC49-43E8-9512-C06C1AF802E3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrimorioTormenta.Model", "GrimorioTormenta.Model\GrimorioTormenta.Model.csproj", "{F09D253A-9E06-4C95-984A-F2540133129E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrimorioTormenta.Business", "GrimorioTormenta.Business\GrimorioTormenta.Business.csproj", "{7455A062-5DE1-44DA-835A-015A4E61BED4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrimorioTormenta.Intefaces", "GrimorioTormenta.Intefaces\GrimorioTormenta.Intefaces.csproj", "{92AEC009-397F-45B5-8FE2-88FEC79D4C26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrimorioTormenta.Repositorio", "GrimorioTormenta.Repositorio\GrimorioTormenta.Repositorio.csproj", "{F46C13EB-0266-495B-9D3D-615996856B79}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E990A77B-AC49-43E8-9512-C06C1AF802E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E990A77B-AC49-43E8-9512-C06C1AF802E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E990A77B-AC49-43E8-9512-C06C1AF802E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E990A77B-AC49-43E8-9512-C06C1AF802E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F09D253A-9E06-4C95-984A-F2540133129E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F09D253A-9E06-4C95-984A-F2540133129E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F09D253A-9E06-4C95-984A-F2540133129E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F09D253A-9E06-4C95-984A-F2540133129E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7455A062-5DE1-44DA-835A-015A4E61BED4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7455A062-5DE1-44DA-835A-015A4E61BED4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7455A062-5DE1-44DA-835A-015A4E61BED4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7455A062-5DE1-44DA-835A-015A4E61BED4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92AEC009-397F-45B5-8FE2-88FEC79D4C26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92AEC009-397F-45B5-8FE2-88FEC79D4C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92AEC009-397F-45B5-8FE2-88FEC79D4C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92AEC009-397F-45B5-8FE2-88FEC79D4C26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F46C13EB-0266-495B-9D3D-615996856B79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F46C13EB-0266-495B-9D3D-615996856B79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F46C13EB-0266-495B-9D3D-615996856B79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F46C13EB-0266-495B-9D3D-615996856B79}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EEE31BE6-16B2-4699-B2A4-B48BBEDF9B65}
+	EndGlobalSection
+EndGlobal
