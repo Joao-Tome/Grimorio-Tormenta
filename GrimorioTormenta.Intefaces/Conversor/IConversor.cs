@@ -8,7 +8,8 @@ namespace GrimorioTormenta.Intefaces.Conversor
 {
     public interface IConversor<Y, T>
     {
-        public Y Converte(T obj);
-        public IEnumerable<Y>? Converte(IEnumerable<T>? obj);
+        public Y ConverteToDTO(T obj);
+        public T ConverteToModel(Y obj);
+        public IEnumerable<Y>? ConverteToDTOList(IEnumerable<T>? obj);
     }
 }

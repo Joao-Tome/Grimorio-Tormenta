@@ -3,27 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.Results;
 using GrimorioTormenta.Intefaces.Conversor;
 using GrimorioTormenta.Intefaces.Instancia;
 using GrimorioTormenta.Intefaces.Repositorio;
 using GrimorioTormenta.Model.DTO;
 using GrimorioTormenta.Model.Models;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace GrimorioTormenta.Business.Instancia
 {
 
     public class GrupoInstancia : IGrupoInstancia
     {
-        IGrupoRepositorio _rep;
-        IGrupoConversor _convert;
+        private readonly IGrupoRepositorio _rep;
+        private readonly IGrupoConversor _convert;
+        private readonly IValidator<GrupoDTO> _validator;
 
-        public GrupoInstancia(IGrupoRepositorio rep, IGrupoConversor convert)
+        public GrupoInstancia(IGrupoRepositorio rep, IGrupoConversor convert, IValidator<GrupoDTO> validator)
         {
             _rep = rep;
             _convert = convert;
+            _validator = validator;
         }
 
-        public void Alterar(GrupoDTO instancia)
+        public GrupoDTO Alterar(GrupoDTO instancia)
         {
             throw new NotImplementedException();
         }
@@ -46,12 +51,26 @@ namespace GrimorioTormenta.Business.Instancia
         public IEnumerable<GrupoDTO>? GetInstancias()
         {
             IEnumerable<GrupoModel>? list = _rep.GetAll();
-            return _convert.Converte(list);
+            return _convert.ConverteToDTOList(list);
         }
 
-        public void Inserir(GrupoDTO instancia)
+        public GrupoDTO Inserir(GrupoDTO instancia)
         {
-            throw new NotImplementedException();
+            ValidationResult results = _validator.Validate(instancia);
+
+            if (!results.IsValid)
+            {
+                throw new ValidationException("A instancia não passou na validação");
+            }
+            else
+            {
+                GrupoModel model = _convert.ConverteToModel(instancia);
+
+                model = _rep.insert(model);
+
+                return _convert.ConverteToDTO(model);
+               
+            }
         }
     }
 }

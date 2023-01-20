@@ -12,16 +12,22 @@ namespace GrimorioTormenta.Business.Conversor
 {
     public class GrupoConversor : IGrupoConversor
     {
-        public GrupoDTO Converte(GrupoModel obj)
+        public GrupoDTO ConverteToDTO(GrupoModel obj)
         {
             GrupoDTO gp = new GrupoDTO() { Id = obj.Id, Nome = obj.Nome };
             return gp;
         }
 
-        public IEnumerable<GrupoDTO>? Converte(IEnumerable<GrupoModel>? obj)
+        public GrupoModel ConverteToModel(GrupoDTO obj)
+        {
+            GrupoModel gp = new GrupoModel() { Id = obj.Id, Nome = obj.Nome };
+            return gp;
+        }
+
+        public IEnumerable<GrupoDTO>? ConverteToDTOList(IEnumerable<GrupoModel>? obj)
         {
             return (from GrupoModel? gp in obj
-                    select Converte(gp)).ToList();
+                    select ConverteToDTO(gp)).ToList();
         }
     }
 }

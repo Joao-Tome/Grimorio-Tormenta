@@ -11,8 +11,8 @@ namespace GrimorioTormenta.Intefaces.Instancia
         public T GetInstancia(int id);
         public IEnumerable<T>? GetInstancias();
         public IEnumerable<T> GetInstancia(Func<T, bool> func);
-        public void Inserir(T instancia);
-        public void Alterar(T instancia);
+        public T Inserir(T instancia);
+        public T Alterar(T instancia);
         public void deletar(T instancia);
 
     }

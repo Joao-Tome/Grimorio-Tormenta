@@ -20,10 +20,11 @@ namespace GrimorioTormenta.Repositorio.Repositorio
             _context = context;
         }   
 
-        public void insert(GrupoModel entity)
+        public GrupoModel insert(GrupoModel entity)
         {
             _context.Set<GrupoModel>().Add(entity);
             _context.SaveChanges();
+            return entity;
         }
 
         public void delete(GrupoModel entity)
@@ -32,10 +33,11 @@ namespace GrimorioTormenta.Repositorio.Repositorio
             _context.SaveChanges();
         }
 
-        public void update(GrupoModel entity)
+        public GrupoModel update(GrupoModel entity)
         {
             _context.Set<GrupoModel>().Update(entity);
             _context.SaveChanges();
+            return entity;
         }
 
         public GrupoModel? get(int id)

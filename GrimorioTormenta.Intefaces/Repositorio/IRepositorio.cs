@@ -10,8 +10,8 @@ namespace GrimorioTormenta.Intefaces.Repositorio
 {
     public interface IRepositorio<T>
     {
-        public void insert(T entity);
-        public void update(T entity);
+        public T insert(T entity);
+        public T update(T entity);
         public void delete(T entity);
         public T? get(int id);
         public IEnumerable<T>? Getlist(Func<T,bool> func);

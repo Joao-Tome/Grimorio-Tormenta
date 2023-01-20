@@ -16,5 +16,10 @@ namespace GrimorioTormenta.Repositorio.Config
         }
 
         public DbSet<GrupoModel> Grupos { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<GrupoModel>().Property(p=>p.Nome).IsRequired().HasMaxLength(50);
+        }
     }
 }

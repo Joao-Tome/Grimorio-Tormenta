@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Grimorio_Tormenta_Back_End.Config.Depencency_Injection;
 using GrimorioTormenta.Business.Conversor;
 using GrimorioTormenta.Business.Instancia;
@@ -14,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -22,6 +24,7 @@ builder.Services
     .addDbContextDI(builder.Configuration)
     .addRepositoriosDI()
     .addConversorDi()
+    .addValidadoresDI()
     .addInstanciasDI();
 
 

@@ -26,5 +26,11 @@ namespace Grimorio_Tormenta_Back_End.Controllers
         {
             return _instancia.GetInstancias();
         }
+
+        [HttpPost]
+        public GrupoDTO Add(GrupoDTO obj)
+        {
+            return _instancia.Inserir(obj);
+        }
     }
 }
