@@ -1,3 +1,4 @@
+using Grimorio_Tormenta_Back_End.Config.Depencency_Injection;
 using GrimorioTormenta.Business.Conversor;
 using GrimorioTormenta.Business.Instancia;
 using GrimorioTormenta.Intefaces.Conversor;
@@ -16,14 +17,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-var connectionString = builder.Configuration.GetConnectionString("Connection");
-builder.Services.AddScoped<DbContext, AppDbContext>();
-builder.Services.AddScoped<IGrupoRepositorio,GrupoRepositorio>();
 
-builder.Services.AddScoped<IGrupoConversor, GrupoConversor>();
-builder.Services.AddScoped<IGrupoInstancia, GrupoInstancia>();
+builder.Services
+    .addDbContextDI(builder.Configuration)
+    .addRepositoriosDI()
+    .addConversorDi()
+    .addInstanciasDI();
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 var app = builder.Build();
 
