@@ -35,14 +35,14 @@ namespace GrimorioTormenta.Repositorio.Repositorio
 
         public GrupoModel update(GrupoModel entity)
         {
-            _context.Set<GrupoModel>().Update(entity);
+            _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();
             return entity;
         }
 
         public GrupoModel? get(int id)
         {
-            return _context.Set<GrupoModel>().Find(id);
+            return _context.Set<GrupoModel>().AsNoTracking().SingleOrDefault(o => o.Id == id);
         }
 
         public IEnumerable<GrupoModel>? GetAll()

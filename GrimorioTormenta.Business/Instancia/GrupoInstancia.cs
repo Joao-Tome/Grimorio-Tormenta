@@ -35,12 +35,13 @@ namespace GrimorioTormenta.Business.Instancia
 
         public void deletar(GrupoDTO instancia)
         {
-            throw new NotImplementedException();
+            _rep.delete(_convert.ConverteToModel(instancia));
         }
 
         public GrupoDTO GetInstancia(int id)
         {
-            throw new NotImplementedException();
+            GrupoModel? gp = _rep.get(id);
+            return _convert.ConverteToDTO(gp);
         }
 
         public IEnumerable<GrupoDTO> GetInstancia(Func<GrupoDTO, bool> func)

@@ -7,7 +7,7 @@ namespace Grimorio_Tormenta_Back_End.Config.Depencency_Injection
     {
         public static IServiceCollection addRepositoriosDI( this IServiceCollection services)
         {
-            services.AddScoped<IGrupoRepositorio, GrupoRepositorio>();
+            services.AddTransient<IGrupoRepositorio, GrupoRepositorio>();
 
             return services;
         }

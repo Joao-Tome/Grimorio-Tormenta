@@ -45,5 +45,21 @@ namespace Grimorio_Tormenta_Back_End.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.InnerException.Message);
             }
         }
+
+        [HttpDelete]
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                _instancia.deletar(_instancia.GetInstancia(id));
+                return Ok("Objeto Deletado com Sucesso");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                throw;
+            }
+
+        }
     }
 }
