@@ -1,4 +1,5 @@
-﻿using GrimorioTormenta.Intefaces.Instancia;
+﻿using FluentValidation;
+using GrimorioTormenta.Intefaces.Instancia;
 using GrimorioTormenta.Intefaces.Repositorio;
 using GrimorioTormenta.Model.DTO;
 using GrimorioTormenta.Model.Models;
@@ -7,6 +8,7 @@ using GrimorioTormenta.Repositorio.Repositorio;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace Grimorio_Tormenta_Back_End.Controllers
 {
@@ -22,15 +24,26 @@ namespace Grimorio_Tormenta_Back_End.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<GrupoDTO>? GetAll()
+        public ActionResult<IEnumerable<GrupoDTO>>? GetAll()
         {
-            return _instancia.GetInstancias();
+            return Ok(_instancia.GetInstancias());
         }
 
         [HttpPost]
-        public GrupoDTO Add(GrupoDTO obj)
+        public ActionResult<GrupoDTO> Add(GrupoDTO obj)
         {
-            return _instancia.Inserir(obj);
+            try
+            {
+                return Ok(_instancia.Inserir(obj));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Errors);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.InnerException.Message);
+            }
         }
     }
 }

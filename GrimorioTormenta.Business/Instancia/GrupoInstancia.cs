@@ -56,21 +56,14 @@ namespace GrimorioTormenta.Business.Instancia
 
         public GrupoDTO Inserir(GrupoDTO instancia)
         {
-            ValidationResult results = _validator.Validate(instancia);
+            _validator.ValidateAndThrow(instancia);
+    
+            GrupoModel model = _convert.ConverteToModel(instancia);
 
-            if (!results.IsValid)
-            {
-                throw new ValidationException("A instancia não passou na validação");
-            }
-            else
-            {
-                GrupoModel model = _convert.ConverteToModel(instancia);
+            model = _rep.insert(model);
 
-                model = _rep.insert(model);
+            return _convert.ConverteToDTO(model);
 
-                return _convert.ConverteToDTO(model);
-               
-            }
         }
     }
 }
