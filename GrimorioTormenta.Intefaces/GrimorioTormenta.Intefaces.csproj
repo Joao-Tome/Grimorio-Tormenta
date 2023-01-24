@@ -7,7 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\GrimorioTormenta.Model\GrimorioTormenta.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Validadores\" />
   </ItemGroup>
 
 </Project>

@@ -30,7 +30,22 @@ namespace GrimorioTormenta.Business.Instancia
 
         public GrupoDTO Alterar(GrupoDTO instancia)
         {
-            throw new NotImplementedException();
+            _validator.ValidateAndThrow(instancia);
+            //Não achei um jeito de validar o ID pelo FluentValidation..............
+            if (instancia.Id == 0)
+            {
+                throw new ValidationException(new List<ValidationFailure>().Append(new ValidationFailure("id","Id não pode ser 0")));
+            }
+            if (_rep.get(instancia.Id) is null)
+            {
+                throw new ValidationException(new List<ValidationFailure>().Append(new ValidationFailure("id", "Id precisa Existir para Alterar")));
+            }
+
+            GrupoModel model = _convert.ConverteToModel(instancia);
+
+            model = _rep.update(model);
+
+            return _convert.ConverteToDTO(model);
         }
 
         public void deletar(GrupoDTO instancia)
@@ -58,6 +73,12 @@ namespace GrimorioTormenta.Business.Instancia
         public GrupoDTO Inserir(GrupoDTO instancia)
         {
             _validator.ValidateAndThrow(instancia);
+
+            if (instancia.Id > 0)
+            {
+                //Cria um Novo ValidationException
+                throw new ValidationException(new List<ValidationFailure>().Append(new ValidationFailure("id", "Id precisa ser 0 para Inserir")));
+            }
     
             GrupoModel model = _convert.ConverteToModel(instancia);
 

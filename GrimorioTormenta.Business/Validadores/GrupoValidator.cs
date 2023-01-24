@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using GrimorioTormenta.Intefaces.Repositorio;
 using GrimorioTormenta.Model.DTO;
 using System;
 using System.Collections.Generic;

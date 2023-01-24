@@ -57,9 +57,31 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-                throw;
             }
 
         }
+
+        [HttpPut]
+        public ActionResult<GrupoDTO> Update(GrupoDTO obj)
+        {
+            try
+            {
+                return _instancia.Alterar(obj);
+            }
+            catch(ValidationException ex)
+            {
+                return BadRequest(ex.Errors);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
     }
 }
+
+
+
+
+
