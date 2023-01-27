@@ -14,8 +14,4 @@
     <ProjectReference Include="..\GrimorioTormenta.Model\GrimorioTormenta.Model.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Validadores\" />
-  </ItemGroup>
-
 </Project>

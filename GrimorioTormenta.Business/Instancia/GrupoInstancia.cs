@@ -8,6 +8,7 @@ using FluentValidation.Results;
 using GrimorioTormenta.Intefaces.Conversor;
 using GrimorioTormenta.Intefaces.Instancia;
 using GrimorioTormenta.Intefaces.Repositorio;
+using GrimorioTormenta.Intefaces.Validadores;
 using GrimorioTormenta.Model.DTO;
 using GrimorioTormenta.Model.Models;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -19,9 +20,9 @@ namespace GrimorioTormenta.Business.Instancia
     {
         private readonly IGrupoRepositorio _rep;
         private readonly IGrupoConversor _convert;
-        private readonly IValidator<GrupoDTO> _validator;
+        private readonly IValidador<GrupoDTO> _validator;
 
-        public GrupoInstancia(IGrupoRepositorio rep, IGrupoConversor convert, IValidator<GrupoDTO> validator)
+        public GrupoInstancia(IGrupoRepositorio rep, IGrupoConversor convert, IValidador<GrupoDTO> validator)
         {
             _rep = rep;
             _convert = convert;
@@ -30,16 +31,7 @@ namespace GrimorioTormenta.Business.Instancia
 
         public GrupoDTO Alterar(GrupoDTO instancia)
         {
-            _validator.ValidateAndThrow(instancia);
-            //Não achei um jeito de validar o ID pelo FluentValidation..............
-            if (instancia.Id == 0)
-            {
-                throw new ValidationException(new List<ValidationFailure>().Append(new ValidationFailure("id","Id não pode ser 0")));
-            }
-            if (_rep.get(instancia.Id) is null)
-            {
-                throw new ValidationException(new List<ValidationFailure>().Append(new ValidationFailure("id", "Id precisa Existir para Alterar")));
-            }
+            _validator.ValidaUpdateAndThrow(instancia);
 
             GrupoModel model = _convert.ConverteToModel(instancia);
 
@@ -72,14 +64,8 @@ namespace GrimorioTormenta.Business.Instancia
 
         public GrupoDTO Inserir(GrupoDTO instancia)
         {
-            _validator.ValidateAndThrow(instancia);
+            _validator.ValidaInsertAndThrow(instancia);
 
-            if (instancia.Id > 0)
-            {
-                //Cria um Novo ValidationException
-                throw new ValidationException(new List<ValidationFailure>().Append(new ValidationFailure("id", "Id precisa ser 0 para Inserir")));
-            }
-    
             GrupoModel model = _convert.ConverteToModel(instancia);
 
             model = _rep.insert(model);

@@ -1,10 +1,6 @@
 ﻿using FluentValidation;
 using GrimorioTormenta.Intefaces.Instancia;
-using GrimorioTormenta.Intefaces.Repositorio;
 using GrimorioTormenta.Model.DTO;
-using GrimorioTormenta.Model.Models;
-using GrimorioTormenta.Repositorio.Config;
-using GrimorioTormenta.Repositorio.Repositorio;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -42,7 +38,7 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             }
             catch(Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.InnerException.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 

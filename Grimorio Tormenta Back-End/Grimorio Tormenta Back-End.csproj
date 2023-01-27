@@ -26,6 +26,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GrimorioTormenta.Business\GrimorioTormenta.Business.csproj" />
+    <ProjectReference Include="..\GrimorioTormenta.Intefaces\GrimorioTormenta.Intefaces.csproj" />
+    <ProjectReference Include="..\GrimorioTormenta.Model\GrimorioTormenta.Model.csproj" />
     <ProjectReference Include="..\GrimorioTormenta.Repositorio\GrimorioTormenta.Repositorio.csproj" />
   </ItemGroup>
 
