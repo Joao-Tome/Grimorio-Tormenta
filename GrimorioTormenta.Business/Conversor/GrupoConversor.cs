@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GrimorioTormenta.Intefaces;
 using GrimorioTormenta.Intefaces.Conversor;
+using GrimorioTormenta.Model.Enums;
 
 namespace GrimorioTormenta.Business.Conversor
 {
@@ -14,13 +15,13 @@ namespace GrimorioTormenta.Business.Conversor
     {
         public GrupoDTO ConverteToDTO(GrupoModel obj)
         {
-            GrupoDTO gp = new GrupoDTO() { Id = obj.Id, Nome = obj.Nome };
+            GrupoDTO gp = new GrupoDTO() { Id = obj.Id, Nome = obj.Nome, Tipo = obj.Tipo.ToString(), Status = obj.Status};
             return gp;
         }
 
         public GrupoModel ConverteToModel(GrupoDTO obj)
         {
-            GrupoModel gp = new GrupoModel() { Id = obj.Id, Nome = obj.Nome };
+            GrupoModel gp = new GrupoModel() { Id = obj.Id, Nome = obj.Nome, Tipo = (TiposGrupo)Enum.Parse(typeof(TiposGrupo),obj.Tipo), Status = obj.Status };
             return gp;
         }
 

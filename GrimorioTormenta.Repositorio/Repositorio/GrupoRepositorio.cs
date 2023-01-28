@@ -29,8 +29,10 @@ namespace GrimorioTormenta.Repositorio.Repositorio
 
         public void delete(GrupoModel entity)
         {
-            _context.Set<GrupoModel>().Remove(entity);
-            _context.SaveChanges();
+            entity.Status = Model.Enums.Status.Inativo;
+            update(entity);
+            //_context.Set<GrupoModel>().Remove(entity);
+            //_context.SaveChanges();
         }
 
         public GrupoModel update(GrupoModel entity)
