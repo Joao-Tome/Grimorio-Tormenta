@@ -47,7 +47,7 @@ namespace Grimorio_Tormenta_Back_End.Controllers
         {
             try
             {
-                _instancia.deletar(_instancia.GetInstancia(id));
+                _instancia.deletar(id);
                 return Ok("Objeto Deletado com Sucesso");
             }
             catch (Exception ex)

@@ -12,7 +12,7 @@ namespace GrimorioTormenta.Model.DTO
     public class GrupoDTO : ACDTO
     {
         public string? Nome{ get; set; }
-        public string? Tipo { get; set;}
+        public TiposGrupo Tipo { get; set;}
 
     }
 }

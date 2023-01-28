@@ -12,6 +12,6 @@ namespace GrimorioTormenta.Model.Models
     public class GrupoModel : ACModel
     {
         public string? Nome { get; set; }
-        public TiposGrupo? Tipo { get; set; }
+        public TiposGrupo Tipo { get; set; }
     }
 }

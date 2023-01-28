@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace GrimorioTormenta.Intefaces.Instancia
 {
-    public interface IInstancia<T>
+    public interface IInstancia<X,Y>
     {
-        public T GetInstancia(int id);
-        public IEnumerable<T>? GetInstancias();
-        public IEnumerable<T> GetInstancia(Func<T, bool> func);
-        public T Inserir(T instancia);
-        public T Alterar(T instancia);
-        public void deletar(T instancia);
+        public Y GetInstancia(int id);
+        public IEnumerable<Y>? GetInstancias();
+        public IEnumerable<Y> GetInstancia(Func<X, bool> func);
+        public X Inserir(X instancia);
+        public X Alterar(X instancia);
+        public void deletar(int id);
 
     }
 }

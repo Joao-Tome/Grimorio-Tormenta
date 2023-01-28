@@ -11,6 +11,7 @@ using GrimorioTormenta.Intefaces.Repositorio;
 using GrimorioTormenta.Intefaces.Validadores;
 using GrimorioTormenta.Model.DTO;
 using GrimorioTormenta.Model.Models;
+using GrimorioTormenta.Model.ViewModel;
 using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace GrimorioTormenta.Business.Instancia
@@ -40,26 +41,27 @@ namespace GrimorioTormenta.Business.Instancia
             return _convert.ConverteToDTO(model);
         }
 
-        public void deletar(GrupoDTO instancia)
+        public void deletar(int id)
         {
+            GrupoDTO instancia = _convert.ConverteToDTO(GetInstancia(id));
             _rep.delete(_convert.ConverteToModel(instancia));
         }
 
-        public GrupoDTO GetInstancia(int id)
+        public GrupoViewModel GetInstancia(int id)
         {
             GrupoModel? gp = _rep.get(id);
-            return _convert.ConverteToDTO(gp);
+            return _convert.ConverteToViewModel(gp);
         }
 
-        public IEnumerable<GrupoDTO> GetInstancia(Func<GrupoDTO, bool> func)
+        public IEnumerable<GrupoViewModel> GetInstancia(Func<GrupoDTO, bool> func)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<GrupoDTO>? GetInstancias()
+        public IEnumerable<GrupoViewModel>? GetInstancias()
         {
             IEnumerable<GrupoModel>? list = _rep.GetAll();
-            return _convert.ConverteToDTOList(list);
+            return _convert.ConverteToViewList(list);
         }
 
         public GrupoDTO Inserir(GrupoDTO instancia)

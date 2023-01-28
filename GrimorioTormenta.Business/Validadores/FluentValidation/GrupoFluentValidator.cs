@@ -20,8 +20,7 @@ namespace GrimorioTormenta.Business.Validadores.FluentValidation
                 .MaximumLength(50).WithMessage("Nome não pode ter mais de 50 Caracteres");
 
             RuleFor(x => x.Tipo)
-                .NotNull().WithMessage("Tipo é requerido")
-                .IsEnumName(typeof(TiposGrupo)).WithMessage("Tipo Precisa ser valido");
+                .NotNull().WithMessage("Tipo é requerido");
 
             RuleFor(x => x.Status).IsInEnum().WithMessage("Status Precisa ser Valido");
         }
