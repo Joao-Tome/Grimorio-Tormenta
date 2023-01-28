@@ -20,11 +20,7 @@ namespace GrimorioTormenta.Repositorio.Config
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<GrupoModel>().Property(p=>p.Nome).IsRequired().HasMaxLength(50);
-            
-            modelBuilder.Entity<PessoaModel>().Property(p=>p.Email).IsRequired().HasMaxLength(200);
-            modelBuilder.Entity<PessoaModel>().Property(p => p.Senha).IsRequired().HasMaxLength(500);
-            modelBuilder.Entity<PessoaModel>().Property(p => p.NickName).IsRequired().HasMaxLength(50);
+
         }
     }
 }
