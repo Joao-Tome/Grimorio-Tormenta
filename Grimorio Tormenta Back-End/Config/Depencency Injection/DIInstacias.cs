@@ -8,6 +8,7 @@ namespace Grimorio_Tormenta_Back_End.Config.Depencency_Injection
         public static IServiceCollection addInstanciasDI(this IServiceCollection services)
         {
             services.AddScoped<IGrupoInstancia, GrupoInstancia>();
+            services.AddScoped<IPessoaInstancia, PessoaInstancia>();
 
             return services;
         }

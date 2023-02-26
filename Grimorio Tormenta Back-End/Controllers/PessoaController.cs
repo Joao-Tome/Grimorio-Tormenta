@@ -1,32 +1,31 @@
 ﻿using FluentValidation;
+using GrimorioTormenta.Business.Instancia;
 using GrimorioTormenta.Intefaces.Instancia;
 using GrimorioTormenta.Model.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
 
 namespace Grimorio_Tormenta_Back_End.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GrupoController : ControllerBase
+    public class PessoaController : ControllerBase
     {
-        private readonly IGrupoInstancia _instancia;
+        private readonly IPessoaInstancia _instancia;
 
-        public GrupoController(IGrupoInstancia grupoInstancia)
+        public PessoaController(IPessoaInstancia instancia)
         {
-            _instancia = grupoInstancia;
+            _instancia = instancia;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<GrupoDTO>>? GetAll(bool inativos)
+        public ActionResult<IEnumerable<PessoaDTO>>? GetAll(bool Inativos)
         {
-            return Ok(_instancia.GetInstancias(inativos));
+            return Ok(_instancia.GetInstancias(Inativos));
         }
 
         [HttpPost]
-        public ActionResult<GrupoDTO> Add(GrupoDTO obj)
+        public ActionResult<PessoaDTO> Add(PessoaDTO obj)
         {
             try
             {
@@ -36,7 +35,7 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             {
                 return BadRequest(ex.Errors);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -58,13 +57,13 @@ namespace Grimorio_Tormenta_Back_End.Controllers
         }
 
         [HttpPut]
-        public ActionResult<GrupoDTO> Update(GrupoDTO obj)
+        public ActionResult<PessoaDTO> Update(PessoaDTO obj)
         {
             try
             {
                 return _instancia.Alterar(obj);
             }
-            catch(ValidationException ex)
+            catch (ValidationException ex)
             {
                 return BadRequest(ex.Errors);
             }
@@ -73,11 +72,5 @@ namespace Grimorio_Tormenta_Back_End.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
     }
 }
-
-
-
-
-

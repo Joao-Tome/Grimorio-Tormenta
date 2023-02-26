@@ -19,6 +19,7 @@ namespace Grimorio_Tormenta_Back_End.Config.Depencency_Injection
         private static IServiceCollection addValidadoresFluentValidationDI(IServiceCollection services)
         {
             services.AddScoped<IValidator<GrupoDTO>, GrupoFluentValidator>();
+            services.AddScoped<IValidator<PessoaDTO>, PessoaFluentValidator>();
 
             return services;
         }
@@ -26,6 +27,7 @@ namespace Grimorio_Tormenta_Back_End.Config.Depencency_Injection
         private static IServiceCollection addCustomValidadoresDI(IServiceCollection services)
         {
             services.AddScoped<IValidador<GrupoDTO>, GrupoValidador>();
+            services.AddScoped<IValidador<PessoaDTO>, PessoaValidador>();
 
             return services;
         }

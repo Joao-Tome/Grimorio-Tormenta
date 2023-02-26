@@ -43,8 +43,14 @@ namespace GrimorioTormenta.Business.Instancia
 
         public void deletar(int id)
         {
-            GrupoDTO instancia = _convert.ConverteToDTO(GetInstancia(id));
+            GrupoDTO instancia = GetInstanciaDTO(id);
             _rep.delete(_convert.ConverteToModel(instancia));
+        }
+
+        public GrupoDTO GetInstanciaDTO(int id)
+        {
+            GrupoModel? gp = _rep.get(id);
+            return _convert.ConverteToDTO(gp);
         }
 
         public GrupoViewModel GetInstancia(int id)
@@ -74,6 +80,19 @@ namespace GrimorioTormenta.Business.Instancia
 
             return _convert.ConverteToDTO(model);
 
+        }
+
+        public IEnumerable<GrupoViewModel>? GetInstancias(bool inativos)
+        {
+            if (inativos)
+            {
+                return GetInstancias();
+            }
+            else
+            {
+                IEnumerable<GrupoModel>? list = _rep.Getlist(x => x.Status == Model.Enums.Status.Ativo);
+                return _convert.ConverteToViewList(list);
+            }
         }
     }
 }
