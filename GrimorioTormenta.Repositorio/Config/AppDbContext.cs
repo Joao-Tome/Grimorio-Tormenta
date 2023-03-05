@@ -17,6 +17,7 @@ namespace GrimorioTormenta.Repositorio.Config
 
         public DbSet<GrupoModel> Grupos { get; set; }
         public DbSet<PessoaModel> Pessoas { get; set; }
+        public DbSet<GrupoPessoaModel> GrupoPessoas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

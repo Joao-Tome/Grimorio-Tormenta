@@ -74,6 +74,20 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             }
         }
 
+        [HttpPost("Entrar")]
+        public ActionResult<GrupoDTO> EntrarGrupo(int PessoaId, int GrupoId)
+        {
+            try
+            {
+                return _instancia.EntrarGrupo(PessoaId, GrupoId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                throw;
+            }
+        }
+
     }
 }
 

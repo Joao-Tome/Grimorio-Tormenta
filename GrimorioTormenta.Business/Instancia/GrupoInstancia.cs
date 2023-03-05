@@ -10,6 +10,7 @@ using GrimorioTormenta.Intefaces.Instancia;
 using GrimorioTormenta.Intefaces.Repositorio;
 using GrimorioTormenta.Intefaces.Validadores;
 using GrimorioTormenta.Model.DTO;
+using GrimorioTormenta.Model.Enums;
 using GrimorioTormenta.Model.Models;
 using GrimorioTormenta.Model.ViewModel;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -22,15 +23,19 @@ namespace GrimorioTormenta.Business.Instancia
         private readonly IGrupoRepositorio _rep;
         private readonly IGrupoConversor _convert;
         private readonly IValidador<GrupoDTO> _validator;
+        private readonly IPessoaInstancia _pesInst;
+        private readonly IGrupoPessoaInstancia _grupopesInst;
 
-        public GrupoInstancia(IGrupoRepositorio rep, IGrupoConversor convert, IValidador<GrupoDTO> validator)
+        public GrupoInstancia(IGrupoRepositorio rep, IGrupoConversor convert, IValidador<GrupoDTO> validator, IPessoaInstancia pessoaInstancia, IGrupoPessoaInstancia grupoPessoaInstancia)
         {
             _rep = rep;
             _convert = convert;
             _validator = validator;
+            _pesInst = pessoaInstancia;
+            _grupopesInst = grupoPessoaInstancia;
         }
 
-        public GrupoDTO Alterar(GrupoDTO instancia)
+        public GrupoDTO? Alterar(GrupoDTO? instancia)
         {
             _validator.ValidaUpdateAndThrow(instancia);
 
@@ -41,25 +46,25 @@ namespace GrimorioTormenta.Business.Instancia
             return _convert.ConverteToDTO(model);
         }
 
-        public void deletar(int id)
+        public void deletar(int? id)
         {
             GrupoDTO instancia = GetInstanciaDTO(id);
             _rep.delete(_convert.ConverteToModel(instancia));
         }
 
-        public GrupoDTO GetInstanciaDTO(int id)
+        public GrupoDTO GetInstanciaDTO(int? id)
         {
             GrupoModel? gp = _rep.get(id);
             return _convert.ConverteToDTO(gp);
         }
 
-        public GrupoViewModel GetInstancia(int id)
+        public GrupoViewModel GetInstancia(int? id)
         {
             GrupoModel? gp = _rep.get(id);
             return _convert.ConverteToViewModel(gp);
         }
 
-        public IEnumerable<GrupoViewModel> GetInstancia(Func<GrupoDTO, bool> func)
+        public IEnumerable<GrupoViewModel> GetInstancia(Func<GrupoDTO, bool>? func)
         {
             throw new NotImplementedException();
         }
@@ -70,7 +75,7 @@ namespace GrimorioTormenta.Business.Instancia
             return _convert.ConverteToViewList(list);
         }
 
-        public GrupoDTO Inserir(GrupoDTO instancia)
+        public GrupoDTO Inserir(GrupoDTO? instancia)
         {
             _validator.ValidaInsertAndThrow(instancia);
 
@@ -93,6 +98,14 @@ namespace GrimorioTormenta.Business.Instancia
                 IEnumerable<GrupoModel>? list = _rep.Getlist(x => x.Status == Model.Enums.Status.Ativo);
                 return _convert.ConverteToViewList(list);
             }
+        }
+
+        public GrupoDTO EntrarGrupo(int PessoaId, int GrupoId)
+        {
+            GrupoDTO grupo = GetInstanciaDTO(GrupoId);
+            PessoaDTO pessoa = _pesInst.GetInstanciaDTO(PessoaId);
+            _grupopesInst.AdicionarPessoa(grupo, pessoa);
+            return grupo;
         }
     }
 }

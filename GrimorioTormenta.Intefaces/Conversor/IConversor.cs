@@ -24,4 +24,16 @@ namespace GrimorioTormenta.Intefaces.Conversor
         public IEnumerable<Z>? ConverteToViewList(IEnumerable<X>? obj);
         public IEnumerable<Z>? ConverteToViewList(IEnumerable<Y>? obj);
     }
+
+    /// <summary>
+    /// Define um Conversor de um Tipo
+    /// </summary>
+    /// <typeparam name="X">Tipo Model</typeparam>
+    /// <typeparam name="Y">Tipo DTO</typeparam>
+    public interface IConversor<X, Y>
+    {
+        public Y ConverteToDTO(X obj);
+        public X ConverteToModel(Y obj);
+        public IEnumerable<Y>? ConverteToDTOList(IEnumerable<X>? obj);
+    }
 }

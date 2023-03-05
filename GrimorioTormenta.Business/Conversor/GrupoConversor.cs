@@ -20,9 +20,9 @@ namespace GrimorioTormenta.Business.Conversor
             return gp;
         }
 
-        public GrupoDTO ConverteToDTO(GrupoViewModel obj)
+        public GrupoDTO ConverteToDTO(GrupoViewModel? obj)
         {
-            GrupoDTO gp = new GrupoDTO() { Id = obj.Id, Nome = obj.Nome, Tipo = (TiposGrupo)Enum.Parse(typeof(TiposGrupo), obj.Tipo), Status = obj.Status };
+            GrupoDTO gp = new GrupoDTO() { Id = obj.Id, Nome = obj?.Nome, Tipo = (TiposGrupo)Enum.Parse(typeof(TiposGrupo), obj?.Tipo), Status = obj.Status };
             return gp;
         }
 

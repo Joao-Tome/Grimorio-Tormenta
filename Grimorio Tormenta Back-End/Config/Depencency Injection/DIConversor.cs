@@ -9,6 +9,7 @@ namespace Grimorio_Tormenta_Back_End.Config.Depencency_Injection
         {
             services.AddScoped<IGrupoConversor, GrupoConversor>();
             services.AddScoped<IPessoaConversor, PessoaConversor>();
+            services.AddScoped<IGrupoPessoaConversor, GrupoPessoaConversor>();
 
             return services;
         }

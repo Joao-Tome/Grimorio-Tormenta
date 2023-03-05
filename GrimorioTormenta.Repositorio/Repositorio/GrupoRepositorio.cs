@@ -42,7 +42,7 @@ namespace GrimorioTormenta.Repositorio.Repositorio
             return entity;
         }
 
-        public GrupoModel? get(int id)
+        public GrupoModel? get(int? id)
         {
             return _context.Set<GrupoModel>().AsNoTracking().SingleOrDefault(o => o.Id == id);
         }

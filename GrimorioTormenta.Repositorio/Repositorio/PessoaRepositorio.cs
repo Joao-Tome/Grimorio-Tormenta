@@ -27,7 +27,7 @@ namespace GrimorioTormenta.Repositorio.Repositorio
             //_context.SaveChanges();
         }
 
-        public PessoaModel? get(int id)
+        public PessoaModel? get(int? id)
         {
             return _context.Set<PessoaModel>().AsNoTracking().SingleOrDefault(o => o.Id == id);
         }

@@ -26,7 +26,7 @@ namespace GrimorioTormenta.Business.Instancia
             _validator = validator;
         }
 
-        public PessoaDTO Alterar(PessoaDTO instancia)
+        public PessoaDTO Alterar(PessoaDTO? instancia)
         {
             _validator.ValidaUpdateAndThrow(instancia);
 
@@ -37,24 +37,24 @@ namespace GrimorioTormenta.Business.Instancia
             return _convert.ConverteToDTO(model);
         }
 
-        public void deletar(int id)
+        public void deletar(int? id)
         {
             PessoaDTO instancia = GetInstanciaDTO(id);
             _rep.delete(_convert.ConverteToModel(instancia));
         }
-        public PessoaDTO GetInstanciaDTO(int id)
+        public PessoaDTO GetInstanciaDTO(int? id)
         {
             PessoaModel? gp = _rep.get(id);
             return _convert.ConverteToDTO(gp);
         }
 
-        public PessoaViewModel GetInstancia(int id)
+        public PessoaViewModel GetInstancia(int? id)
         {
             PessoaModel? gp = _rep.get(id);
             return _convert.ConverteToViewModel(gp);
         }
 
-        public IEnumerable<PessoaViewModel> GetInstancia(Func<PessoaDTO, bool> func)
+        public IEnumerable<PessoaViewModel> GetInstancia(Func<PessoaDTO, bool>? func)
         {
             throw new NotImplementedException();
         }
@@ -79,7 +79,7 @@ namespace GrimorioTormenta.Business.Instancia
 
         }
 
-        public PessoaDTO Inserir(PessoaDTO instancia)
+        public PessoaDTO Inserir(PessoaDTO? instancia)
         {
             _validator.ValidaInsertAndThrow(instancia);
 

@@ -1,5 +1,5 @@
 ﻿using GrimorioTormenta.Model.DTO;
-using GrimorioTormenta.Model.ViewModel;
+using GrimorioTormenta.Model.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace GrimorioTormenta.Intefaces.Instancia
 {
-    public interface IGrupoInstancia : IInstancia<GrupoDTO,GrupoViewModel>
+    public interface IGrupoPessoaInstancia : IInstancia<GrupoPessoaDTO, GrupoPessoaModel>
     {
-        GrupoDTO EntrarGrupo(int PessoaId, int GrupoId);
+        GrupoPessoaDTO AdicionarPessoa(GrupoDTO grupo, PessoaDTO pessoa); 
     }
 }
