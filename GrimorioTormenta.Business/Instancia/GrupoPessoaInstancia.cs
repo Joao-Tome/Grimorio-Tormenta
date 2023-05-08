@@ -38,7 +38,7 @@ namespace GrimorioTormenta.Business.Instancia
             throw new NotImplementedException();
         }
 
-        public IEnumerable<GrupoPessoaModel> GetInstancia(Func<GrupoPessoaDTO, bool>? func)
+        public IEnumerable<GrupoPessoaModel> GetInstancia(Func<GrupoPessoaModel, bool>? func)
         {
             throw new NotImplementedException();
         }

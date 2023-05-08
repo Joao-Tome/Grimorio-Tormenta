@@ -1,35 +1,31 @@
 ﻿using FluentValidation;
-using GrimorioTormenta.Business.Instancia;
+using GrimorioTormenta.Intefaces.Conversor;
 using GrimorioTormenta.Intefaces.Instancia;
+using GrimorioTormenta.Intefaces.Services;
 using GrimorioTormenta.Model.DTO;
-using Microsoft.AspNetCore.Http;
+using GrimorioTormenta.Model.DTO.Diversos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Grimorio_Tormenta_Back_End.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class PessoaController : ControllerBase
+    public class AuthController : Controller
     {
-        private readonly IPessoaInstancia _instancia;
+        private readonly IAuthServices _authServices;
+        private readonly IPessoaServices _pessoaService;
 
-        public PessoaController(IPessoaInstancia instancia)
+        public AuthController(IAuthServices authServices, IPessoaServices pessoaService)
         {
-            _instancia = instancia;
+            _authServices = authServices;
+            _pessoaService = pessoaService;
         }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<PessoaDTO>>? GetAll(bool Inativos)
-        {
-            return Ok(_instancia.GetInstancias(Inativos));
-        }
-
-        [HttpPost]
-        public ActionResult<PessoaDTO> Add(PessoaDTO obj)
+        [HttpPost("Register")]
+        public ActionResult<PessoaDTO> Register([FromBody] PessoaDTO obj)
         {
             try
             {
-                return Ok(_instancia.Inserir(obj));
+                return Ok(_authServices.Register(obj));
             }
             catch (ValidationException ex)
             {
@@ -48,27 +44,35 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             }
         }
 
-        [HttpDelete]
-        public ActionResult Delete(int id)
+        [HttpPost("Login")]
+        public ActionResult<JsonContent> Login(LoginDTO obj)
         {
             try
             {
-                _instancia.deletar(id);
-                return Ok("Objeto Deletado com Sucesso");
+                var data = _authServices.Login(obj);
+                return Ok(data);
+            }
+            catch (ValidationException ex)
+            {
+                if (ex.Errors.Any()) { 
+                    return BadRequest(ex.Errors);
+                }
+                else
+                {
+                    return BadRequest(ex.Message);
+                }
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-
         }
-
-        [HttpPut]
-        public ActionResult<PessoaDTO> Update(PessoaDTO obj)
+        [HttpGet("Teste"), Authorize]
+        public ActionResult<PessoaDTO> Get()
         {
             try
             {
-                return _instancia.Alterar(obj);
+                return Ok(_pessoaService.GetPessoa());
             }
             catch (ValidationException ex)
             {

@@ -1,14 +1,25 @@
-﻿using GrimorioTormenta.Intefaces.Conversor;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using GrimorioTormenta.Business.Services;
+using GrimorioTormenta.Intefaces.Conversor;
 using GrimorioTormenta.Intefaces.Instancia;
 using GrimorioTormenta.Intefaces.Repositorio;
+using GrimorioTormenta.Intefaces.Services;
 using GrimorioTormenta.Intefaces.Validadores;
 using GrimorioTormenta.Model.DTO;
+using GrimorioTormenta.Model.DTO.Diversos;
 using GrimorioTormenta.Model.Models;
 using GrimorioTormenta.Model.PostModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GrimorioTormenta.Business.Instancia
@@ -54,9 +65,17 @@ namespace GrimorioTormenta.Business.Instancia
             return _convert.ConverteToViewModel(gp);
         }
 
-        public IEnumerable<PessoaViewModel> GetInstancia(Func<PessoaDTO, bool>? func)
+        public IEnumerable<PessoaViewModel>? GetInstancia(Func<PessoaModel, bool>? func)
         {
-            throw new NotImplementedException();
+            IEnumerable<PessoaModel>? list = _rep.Getlist(func);
+            return _convert.ConverteToViewList(list);
+
+        }
+
+        public IEnumerable<PessoaDTO>? GetInstanciaDTO(Func<PessoaModel, bool>? func)
+        {
+            IEnumerable<PessoaModel>? list = _rep.Getlist(func);
+            return _convert.ConverteToDTOList(list);
         }
 
         public IEnumerable<PessoaViewModel>? GetInstancias()
@@ -83,11 +102,14 @@ namespace GrimorioTormenta.Business.Instancia
         {
             _validator.ValidaInsertAndThrow(instancia);
 
+            instancia.Senha = BCrypt.Net.BCrypt.HashPassword(instancia.Senha);
+
             PessoaModel model = _convert.ConverteToModel(instancia);
 
             model = _rep.insert(model);
 
             return _convert.ConverteToDTO(model);
         }
+
     }
 }

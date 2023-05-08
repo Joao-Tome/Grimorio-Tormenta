@@ -64,7 +64,7 @@ namespace GrimorioTormenta.Business.Instancia
             return _convert.ConverteToViewModel(gp);
         }
 
-        public IEnumerable<GrupoViewModel> GetInstancia(Func<GrupoDTO, bool>? func)
+        public IEnumerable<GrupoViewModel> GetInstancia(Func<GrupoModel, bool>? func)
         {
             throw new NotImplementedException();
         }

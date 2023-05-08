@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using GrimorioTormenta.Intefaces.Instancia;
 using GrimorioTormenta.Model.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,13 +20,13 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             _instancia = grupoInstancia;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public ActionResult<IEnumerable<GrupoDTO>>? GetAll(bool inativos)
         {
             return Ok(_instancia.GetInstancias(inativos));
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult<GrupoDTO> Add(GrupoDTO obj)
         {
             try
@@ -34,7 +35,14 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             }
             catch (ValidationException ex)
             {
-                return BadRequest(ex.Errors);
+                if (ex.Errors.Any())
+                {
+                    return BadRequest(ex.Errors);
+                }
+                else
+                {
+                    return BadRequest(ex.Message);
+                }
             }
             catch(Exception ex)
             {
@@ -66,7 +74,14 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             }
             catch(ValidationException ex)
             {
-                return BadRequest(ex.Errors);
+                if (ex.Errors.Any())
+                {
+                    return BadRequest(ex.Errors);
+                }
+                else
+                {
+                    return BadRequest(ex.Message);
+                }
             }
             catch (Exception ex)
             {
@@ -75,6 +90,7 @@ namespace Grimorio_Tormenta_Back_End.Controllers
         }
 
         [HttpPost("Entrar")]
+        [Authorize]
         public ActionResult<GrupoDTO> EntrarGrupo(int PessoaId, int GrupoId)
         {
             try

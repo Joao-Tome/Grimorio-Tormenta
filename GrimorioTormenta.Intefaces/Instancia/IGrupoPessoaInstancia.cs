@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GrimorioTormenta.Intefaces.Instancia
 {
-    public interface IGrupoPessoaInstancia : IInstancia<GrupoPessoaDTO, GrupoPessoaModel>
+    public interface IGrupoPessoaInstancia : IInstancia<GrupoPessoaDTO, GrupoPessoaModel, GrupoPessoaModel>
     {
         GrupoPessoaDTO AdicionarPessoa(GrupoDTO grupo, PessoaDTO pessoa); 
     }
