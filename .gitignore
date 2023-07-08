@@ -361,4 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+#Arquivo de Configurações
+/GrimorioTormenta.Business/Services/Settings.cs
 /GrimorioTormenta.Business/Services/Settings.cs
