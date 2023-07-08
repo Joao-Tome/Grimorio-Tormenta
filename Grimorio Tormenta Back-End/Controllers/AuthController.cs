@@ -13,7 +13,7 @@ namespace Grimorio_Tormenta_Back_End.Controllers
     {
         private readonly IAuthServices _authServices;
         private readonly IPessoaServices _pessoaService;
-
+        private readonly int a = 1;
         public AuthController(IAuthServices authServices, IPessoaServices pessoaService)
         {
             _authServices = authServices;
