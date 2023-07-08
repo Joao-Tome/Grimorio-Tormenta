@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
+using GrimorioTormenta.Intefaces.Conversor;
 using GrimorioTormenta.Intefaces.Instancia;
+using GrimorioTormenta.Intefaces.Services;
 using GrimorioTormenta.Model.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,16 +16,42 @@ namespace Grimorio_Tormenta_Back_End.Controllers
     public class GrupoController : ControllerBase
     {
         private readonly IGrupoInstancia _instancia;
+        private readonly IPessoaServices _pessoaService;
+        private readonly IGrupoConversor _grupoConversor;
 
-        public GrupoController(IGrupoInstancia grupoInstancia)
+        public GrupoController(IGrupoInstancia grupoInstancia, IPessoaServices pessoaService, IGrupoConversor grupoConversor)
         {
+            _pessoaService = pessoaService;
             _instancia = grupoInstancia;
+            _grupoConversor = grupoConversor;
         }
 
         [HttpGet, Authorize]
-        public ActionResult<IEnumerable<GrupoDTO>>? GetAll(bool inativos)
+        public ActionResult<IEnumerable<GrupoDTO>>? GetAll()
         {
-            return Ok(_instancia.GetInstancias(inativos));
+            try
+            {
+                PessoaDTO pessoa = _pessoaService.GetPessoa();
+
+                IEnumerable<GrupoDTO> grupos = _instancia.GetAllPessoa(pessoa);
+
+                return Ok(_grupoConversor.ConverteToViewList(grupos));
+            }
+            catch (ValidationException ex)
+            {
+                if (ex.Errors.Any())
+                {
+                    return BadRequest(ex.Errors);
+                }
+                else
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         [HttpPost, Authorize]
@@ -31,7 +59,11 @@ namespace Grimorio_Tormenta_Back_End.Controllers
         {
             try
             {
-                return Ok(_instancia.Inserir(obj));
+                PessoaDTO pessoa = _pessoaService.GetPessoa();
+
+                GrupoDTO grupo = _instancia.Inserir(obj, pessoa);
+
+                return Ok(_grupoConversor.ConverteToViewModel(grupo));
             }
             catch (ValidationException ex)
             {
@@ -50,13 +82,26 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete, Authorize]
         public ActionResult Delete(int id)
         {
             try
             {
-                _instancia.deletar(id);
+                PessoaDTO pessoa = _pessoaService.GetPessoa();
+
+                _instancia.Deletar(id, pessoa);
                 return Ok("Objeto Deletado com Sucesso");
+            }
+            catch (ValidationException ex)
+            {
+                if (ex.Errors.Any())
+                {
+                    return BadRequest(ex.Errors);
+                }
+                else
+                {
+                    return BadRequest(ex.Message);
+                }
             }
             catch (Exception ex)
             {
@@ -65,12 +110,14 @@ namespace Grimorio_Tormenta_Back_End.Controllers
 
         }
 
-        [HttpPut]
+        [HttpPut, Authorize]
         public ActionResult<GrupoDTO> Update(GrupoDTO obj)
         {
             try
             {
-                return _instancia.Alterar(obj);
+                PessoaDTO pessoa = _pessoaService.GetPessoa();
+
+                return _instancia.Alterar(obj, pessoa);
             }
             catch(ValidationException ex)
             {
@@ -89,13 +136,14 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             }
         }
 
-        [HttpPost("Entrar")]
-        [Authorize]
-        public ActionResult<GrupoDTO> EntrarGrupo(int PessoaId, int GrupoId)
+        [HttpPost("Entrar"), Authorize]
+        public ActionResult<GrupoDTO> EntrarGrupo(int GrupoId)
         {
             try
             {
-                return _instancia.EntrarGrupo(PessoaId, GrupoId);
+                PessoaDTO pessoa = _pessoaService.GetPessoa();
+
+                return _instancia.EntrarGrupo(pessoa.Id, GrupoId);
             }
             catch (Exception ex)
             {

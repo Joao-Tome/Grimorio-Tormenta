@@ -47,7 +47,7 @@ namespace GrimorioTormenta.Business.Conversor
 
         public IEnumerable<GrupoPessoaDTO>? ConverteToDTOList(IEnumerable<GrupoPessoaModel>? obj)
         {
-            return (from GrupoPessoaDTO? gp in obj
+            return (from GrupoPessoaModel? gp in obj
                     select ConverteToDTO(gp)).ToList();
         }
 

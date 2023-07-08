@@ -6,6 +6,7 @@ using GrimorioTormenta.Model.Enums;
 using GrimorioTormenta.Model.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace GrimorioTormenta.Business.Instancia
             throw new NotImplementedException();
         }
 
-        public void deletar(int? id)
+        public void Deletar(int? id)
         {
             throw new NotImplementedException();
         }
@@ -38,9 +39,11 @@ namespace GrimorioTormenta.Business.Instancia
             throw new NotImplementedException();
         }
 
-        public IEnumerable<GrupoPessoaModel> GetInstancia(Func<GrupoPessoaModel, bool>? func)
+        public IEnumerable<GrupoPessoaDTO> GetInstancia(Func<GrupoPessoaModel, bool>? func)
         {
-            throw new NotImplementedException();
+            IEnumerable<GrupoPessoaModel> list = _rep.Getlist(func);
+            return _conversor.ConverteToDTOList(list);
+
         }
 
         public GrupoPessoaDTO GetInstanciaDTO(int? id)
@@ -64,13 +67,25 @@ namespace GrimorioTormenta.Business.Instancia
             return _conversor.ConverteToDTO(model);
         }
 
-        public GrupoPessoaDTO AdicionarPessoa(GrupoDTO grupo, PessoaDTO pessoa)
+        public GrupoPessoaDTO AdicionarPessoa(GrupoDTO grupo, PessoaDTO pessoa, StatusGrupoPessoa status = StatusGrupoPessoa.Participante)
         {
+            StatusGrupoPessoa statuspessoa = status;
+
+            if (grupo.Tipo == TiposGrupo.Publico && statuspessoa == StatusGrupoPessoa.Convite)
+            {
+                statuspessoa = StatusGrupoPessoa.Participante;
+            }
+
+            if (grupo.Tipo == TiposGrupo.Privado && statuspessoa == StatusGrupoPessoa.Participante)
+            {
+                statuspessoa = StatusGrupoPessoa.Convite;
+            }
+
             GrupoPessoaDTO dto = new GrupoPessoaDTO
             {
                 Grupo = grupo,
                 Pessoa = pessoa,
-                StatusGrupoPessoa = grupo.Tipo == TiposGrupo.Publico ? StatusGrupoPessoa.Participante : StatusGrupoPessoa.Convite,
+                StatusGrupoPessoa = statuspessoa,
                 Status = Status.Ativo
             };
 

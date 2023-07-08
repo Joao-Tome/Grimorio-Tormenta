@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,10 +47,39 @@ namespace GrimorioTormenta.Business.Instancia
             return _convert.ConverteToDTO(model);
         }
 
-        public void deletar(int? id)
+        public GrupoDTO Alterar(GrupoDTO grupo, PessoaDTO pessoa)
+        {
+            GrupoPessoaDTO? grupoPessoa = _grupopesInst.GetInstancia(i => i.PessoaId == pessoa.Id && i.GrupoId == grupo.Id).FirstOrDefault();
+            if (grupoPessoa is null)
+            {
+                throw new ValidationException("A pessoa não esta no grupo");
+            }
+            if(grupoPessoa.StatusGrupoPessoa != StatusGrupoPessoa.Dono)
+            {
+                throw new ValidationException("A pessoa Não tem direito de atualizar!");
+            }
+            return Alterar(grupo);
+
+        }
+
+        public void Deletar(int? id)
         {
             GrupoDTO instancia = GetInstanciaDTO(id);
             _rep.delete(_convert.ConverteToModel(instancia));
+        }
+        public void Deletar(int grupoid, PessoaDTO pessoa)
+        {
+            GrupoPessoaDTO? grupoPessoa = _grupopesInst.GetInstancia(i => i.PessoaId == pessoa.Id && i.GrupoId == grupoid).FirstOrDefault();
+            if (grupoPessoa is null)
+            {
+                throw new ValidationException("A pessoa não esta no grupo");
+            }
+            if (grupoPessoa.StatusGrupoPessoa != StatusGrupoPessoa.Dono)
+            {
+                throw new ValidationException("A pessoa Não tem direito de Deletar!");
+            }
+            Deletar(grupoid);
+
         }
 
         public GrupoDTO GetInstanciaDTO(int? id)
@@ -64,7 +94,7 @@ namespace GrimorioTormenta.Business.Instancia
             return _convert.ConverteToViewModel(gp);
         }
 
-        public IEnumerable<GrupoViewModel> GetInstancia(Func<GrupoModel, bool>? func)
+        public IEnumerable<GrupoDTO> GetInstancia(Func<GrupoModel, bool>? func)
         {
             throw new NotImplementedException();
         }
@@ -87,6 +117,13 @@ namespace GrimorioTormenta.Business.Instancia
 
         }
 
+        public GrupoDTO Inserir(GrupoDTO grupo, PessoaDTO pessoa)
+        {
+            grupo = Inserir(grupo);
+            _grupopesInst.AdicionarPessoa(grupo, pessoa, StatusGrupoPessoa.Dono);
+            return grupo;
+        }
+
         public IEnumerable<GrupoViewModel>? GetInstancias(bool inativos)
         {
             if (inativos)
@@ -106,6 +143,25 @@ namespace GrimorioTormenta.Business.Instancia
             PessoaDTO pessoa = _pesInst.GetInstanciaDTO(PessoaId);
             _grupopesInst.AdicionarPessoa(grupo, pessoa);
             return grupo;
+        }
+
+        public IEnumerable<GrupoDTO> GetAllPessoa(PessoaDTO pessoa)
+        {
+            IEnumerable<GrupoPessoaDTO> gruposPessoa = _grupopesInst.GetInstancia(i => i.PessoaId == pessoa.Id && i.StatusGrupoPessoa != StatusGrupoPessoa.Convite);
+
+            IEnumerable<GrupoDTO> grupos = GetAllDTOS(gruposPessoa);
+            return grupos;
+        }
+
+        public IEnumerable<GrupoDTO> GetAllDTOS(IEnumerable<GrupoPessoaDTO> grupoPessoaDTOs)
+        {
+            List<GrupoDTO> list = new List<GrupoDTO>();
+
+            foreach (GrupoPessoaDTO item in grupoPessoaDTOs)
+            {
+                list.Add(GetInstanciaDTO(item.Grupo.Id));
+            }
+            return list;
         }
     }
 }

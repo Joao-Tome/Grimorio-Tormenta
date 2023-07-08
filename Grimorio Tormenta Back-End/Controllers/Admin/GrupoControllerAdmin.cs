@@ -1,31 +1,33 @@
 ﻿using FluentValidation;
-using GrimorioTormenta.Business.Instancia;
 using GrimorioTormenta.Intefaces.Instancia;
 using GrimorioTormenta.Model.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace Grimorio_Tormenta_Back_End.Controllers
+
+namespace Grimorio_Tormenta_Back_End.Controllers.Admin
 {
-    [Route("api/[controller]")]
+    [Route("api/Admin/[controller]")]
     [ApiController]
-    public class PessoaController : ControllerBase
+    public class GrupoControllerAdmin : ControllerBase
     {
-        private readonly IPessoaInstancia _instancia;
+        private readonly IGrupoInstancia _instancia;
 
-        public PessoaController(IPessoaInstancia instancia)
+        public GrupoControllerAdmin(IGrupoInstancia grupoInstancia)
         {
-            _instancia = instancia;
+            _instancia = grupoInstancia;
         }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<PessoaDTO>>? GetAll(bool Inativos)
+        [HttpGet, Authorize]
+        public ActionResult<IEnumerable<GrupoDTO>>? GetAll(bool inativos)
         {
-            return Ok(_instancia.GetInstancias(Inativos));
+            return Ok(_instancia.GetInstancias(inativos));
         }
 
-        [HttpPost]
-        public ActionResult<PessoaDTO> Add(PessoaDTO obj)
+        [HttpPost, Authorize]
+        public ActionResult<GrupoDTO> Add(GrupoDTO obj)
         {
             try
             {
@@ -42,7 +44,7 @@ namespace Grimorio_Tormenta_Back_End.Controllers
                     return BadRequest(ex.Message);
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
@@ -64,13 +66,13 @@ namespace Grimorio_Tormenta_Back_End.Controllers
         }
 
         [HttpPut]
-        public ActionResult<PessoaDTO> Update(PessoaDTO obj)
+        public ActionResult<GrupoDTO> Update(GrupoDTO obj)
         {
             try
             {
                 return _instancia.Alterar(obj);
             }
-            catch (ValidationException ex)
+            catch(ValidationException ex)
             {
                 if (ex.Errors.Any())
                 {
@@ -86,5 +88,26 @@ namespace Grimorio_Tormenta_Back_End.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        [HttpPost("Entrar")]
+        [Authorize]
+        public ActionResult<GrupoDTO> EntrarGrupo(int PessoaId, int GrupoId)
+        {
+            try
+            {
+                return _instancia.EntrarGrupo(PessoaId, GrupoId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                throw;
+            }
+        }
+
     }
 }
+
+
+
+
+

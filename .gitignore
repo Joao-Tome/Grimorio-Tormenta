@@ -363,7 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 
 #Arquivo de Configurações
-/GrimorioTormenta.Business/Services/Settings.cs
-/GrimorioTormenta.Business/Services/Settings.cs
-GrimorioTormenta.Business/Services/Settings.cs
+
 GrimorioTormenta.Business/Services/Settings.cs

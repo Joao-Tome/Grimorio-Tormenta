@@ -12,10 +12,10 @@ namespace GrimorioTormenta.Intefaces.Instancia
         public X GetInstanciaDTO(int? id);
         public IEnumerable<Y>? GetInstancias();
         public IEnumerable<Y>? GetInstancias(bool inativos);
-        public IEnumerable<Y>? GetInstancia(Func<Z, bool> func);
+        public IEnumerable<X>? GetInstancia(Func<Z, bool> func);
         public X Inserir(X? instancia);
         public X Alterar(X? instancia);
-        public void deletar(int? id);
+        public void Deletar(int? id);
 
     }
 }

@@ -48,7 +48,7 @@ namespace GrimorioTormenta.Business.Instancia
             return _convert.ConverteToDTO(model);
         }
 
-        public void deletar(int? id)
+        public void Deletar(int? id)
         {
             PessoaDTO instancia = GetInstanciaDTO(id);
             _rep.delete(_convert.ConverteToModel(instancia));
@@ -65,10 +65,10 @@ namespace GrimorioTormenta.Business.Instancia
             return _convert.ConverteToViewModel(gp);
         }
 
-        public IEnumerable<PessoaViewModel>? GetInstancia(Func<PessoaModel, bool>? func)
+        public IEnumerable<PessoaDTO>? GetInstancia(Func<PessoaModel, bool>? func)
         {
             IEnumerable<PessoaModel>? list = _rep.Getlist(func);
-            return _convert.ConverteToViewList(list);
+            return _convert.ConverteToDTOList(list);
 
         }
 

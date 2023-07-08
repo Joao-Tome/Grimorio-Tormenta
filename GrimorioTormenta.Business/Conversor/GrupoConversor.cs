@@ -60,7 +60,7 @@ namespace GrimorioTormenta.Business.Conversor
 
         public IEnumerable<GrupoViewModel>? ConverteToViewList(IEnumerable<GrupoDTO>? obj)
         {
-            return (from GrupoModel? gp in obj
+            return (from GrupoDTO? gp in obj
                     select ConverteToViewModel(gp)).ToList();
         }
     }

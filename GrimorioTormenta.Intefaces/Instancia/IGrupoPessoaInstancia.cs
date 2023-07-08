@@ -1,4 +1,5 @@
 ﻿using GrimorioTormenta.Model.DTO;
+using GrimorioTormenta.Model.Enums;
 using GrimorioTormenta.Model.Models;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,6 @@ namespace GrimorioTormenta.Intefaces.Instancia
 {
     public interface IGrupoPessoaInstancia : IInstancia<GrupoPessoaDTO, GrupoPessoaModel, GrupoPessoaModel>
     {
-        GrupoPessoaDTO AdicionarPessoa(GrupoDTO grupo, PessoaDTO pessoa); 
+        GrupoPessoaDTO AdicionarPessoa(GrupoDTO grupo, PessoaDTO pessoa, StatusGrupoPessoa status = StatusGrupoPessoa.Participante);
     }
 }

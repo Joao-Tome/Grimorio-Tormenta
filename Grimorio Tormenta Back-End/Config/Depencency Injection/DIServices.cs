@@ -11,6 +11,7 @@ namespace Grimorio_Tormenta_Back_End.Config.Depencency_Injection
         {
             services.AddTransient<ITokenServices, TokenServices>();
             services.AddTransient<IPessoaServices, PessoaServices>();
+            services.AddTransient<IAuthServices, AuthServices>();
 
             return services;
         }
