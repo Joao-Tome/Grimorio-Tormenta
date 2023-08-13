@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Grimorio_Tormenta_Back_End.Config.Services;
 using GrimorioTormenta.Intefaces.Instancia;
 using GrimorioTormenta.Model.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -14,10 +15,12 @@ namespace Grimorio_Tormenta_Back_End.Controllers.Admin
     public class GrupoControllerAdmin : ControllerBase
     {
         private readonly IGrupoInstancia _instancia;
+        private readonly ErrorService _errorService;
 
-        public GrupoControllerAdmin(IGrupoInstancia grupoInstancia)
+        public GrupoControllerAdmin(IGrupoInstancia grupoInstancia, ErrorService errorService)
         {
             _instancia = grupoInstancia;
+            _errorService = errorService;
         }
 
         [HttpGet, Authorize]
@@ -35,18 +38,11 @@ namespace Grimorio_Tormenta_Back_End.Controllers.Admin
             }
             catch (ValidationException ex)
             {
-                if (ex.Errors.Any())
-                {
-                    return BadRequest(ex.Errors);
-                }
-                else
-                {
-                    return BadRequest(ex.Message);
-                }
+                return _errorService.HandleValidationException(ex);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return _errorService.HandleException(ex);
             }
         }
 
@@ -60,7 +56,7 @@ namespace Grimorio_Tormenta_Back_End.Controllers.Admin
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return _errorService.HandleException(ex);
             }
 
         }
@@ -72,20 +68,13 @@ namespace Grimorio_Tormenta_Back_End.Controllers.Admin
             {
                 return _instancia.Alterar(obj);
             }
-            catch(ValidationException ex)
+            catch (ValidationException ex)
             {
-                if (ex.Errors.Any())
-                {
-                    return BadRequest(ex.Errors);
-                }
-                else
-                {
-                    return BadRequest(ex.Message);
-                }
+                return _errorService.HandleValidationException(ex);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return _errorService.HandleException(ex);
             }
         }
 
@@ -99,8 +88,7 @@ namespace Grimorio_Tormenta_Back_End.Controllers.Admin
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-                throw;
+                return _errorService.HandleException(ex);
             }
         }
 

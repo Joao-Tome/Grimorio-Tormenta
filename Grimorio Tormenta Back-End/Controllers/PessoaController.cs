@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Grimorio_Tormenta_Back_End.Config.Services;
 using GrimorioTormenta.Business.Instancia;
 using GrimorioTormenta.Intefaces.Instancia;
 using GrimorioTormenta.Model.DTO;
@@ -12,10 +13,12 @@ namespace Grimorio_Tormenta_Back_End.Controllers
     public class PessoaController : ControllerBase
     {
         private readonly IPessoaInstancia _instancia;
+        private readonly ErrorService _errorService;
 
-        public PessoaController(IPessoaInstancia instancia)
+        public PessoaController(IPessoaInstancia instancia, ErrorService errorService)
         {
             _instancia = instancia;
+            _errorService = errorService;
         }
 
         [HttpGet]
@@ -33,18 +36,11 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             }
             catch (ValidationException ex)
             {
-                if (ex.Errors.Any())
-                {
-                    return BadRequest(ex.Errors);
-                }
-                else
-                {
-                    return BadRequest(ex.Message);
-                }
+                return _errorService.HandleValidationException(ex);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return _errorService.HandleException(ex);
             }
         }
 
@@ -56,9 +52,13 @@ namespace Grimorio_Tormenta_Back_End.Controllers
                 _instancia.Deletar(id);
                 return Ok("Objeto Deletado com Sucesso");
             }
+            catch (ValidationException ex)
+            {
+                return _errorService.HandleValidationException(ex);
+            }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return _errorService.HandleException(ex);
             }
 
         }
@@ -72,18 +72,11 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             }
             catch (ValidationException ex)
             {
-                if (ex.Errors.Any())
-                {
-                    return BadRequest(ex.Errors);
-                }
-                else
-                {
-                    return BadRequest(ex.Message);
-                }
+                return _errorService.HandleValidationException(ex);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return _errorService.HandleException(ex);
             }
         }
     }

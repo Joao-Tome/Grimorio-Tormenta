@@ -1,4 +1,5 @@
-﻿using GrimorioTormenta.Business.Services;
+﻿using Grimorio_Tormenta_Back_End.Config.Services;
+using GrimorioTormenta.Business.Services;
 using GrimorioTormenta.Intefaces.Repositorio;
 using GrimorioTormenta.Intefaces.Services;
 using GrimorioTormenta.Repositorio.Repositorio;
@@ -12,6 +13,7 @@ namespace Grimorio_Tormenta_Back_End.Config.Depencency_Injection
             services.AddTransient<ITokenServices, TokenServices>();
             services.AddTransient<IPessoaServices, PessoaServices>();
             services.AddTransient<IAuthServices, AuthServices>();
+            services.AddSingleton<ErrorService>();
 
             return services;
         }

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Grimorio_Tormenta_Back_End.Config.Services;
 using GrimorioTormenta.Intefaces.Conversor;
 using GrimorioTormenta.Intefaces.Instancia;
 using GrimorioTormenta.Intefaces.Services;
@@ -13,10 +14,12 @@ namespace Grimorio_Tormenta_Back_End.Controllers
     {
         private readonly IAuthServices _authServices;
         private readonly IPessoaServices _pessoaService;
-        public AuthController(IAuthServices authServices, IPessoaServices pessoaService)
+        private readonly ErrorService _errorService;
+        public AuthController(IAuthServices authServices, IPessoaServices pessoaService, ErrorService errorService)
         {
             _authServices = authServices;
             _pessoaService = pessoaService;
+            _errorService = errorService;
         }
 
         [HttpPost("Register")]
@@ -28,18 +31,11 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             }
             catch (ValidationException ex)
             {
-                if (ex.Errors.Any())
-                {
-                    return BadRequest(ex.Errors);
-                }
-                else
-                {
-                    return BadRequest(ex.Message);
-                }
+                return _errorService.HandleValidationException(ex);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return _errorService.HandleException(ex);
             }
         }
 
@@ -53,17 +49,11 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             }
             catch (ValidationException ex)
             {
-                if (ex.Errors.Any()) { 
-                    return BadRequest(ex.Errors);
-                }
-                else
-                {
-                    return BadRequest(ex.Message);
-                }
+                return _errorService.HandleValidationException(ex);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return _errorService.HandleException(ex);
             }
         }
 
@@ -74,20 +64,9 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             {
                 return Ok(_pessoaService.GetPessoa());
             }
-            catch (ValidationException ex)
-            {
-                if (ex.Errors.Any())
-                {
-                    return BadRequest(ex.Errors);
-                }
-                else
-                {
-                    return BadRequest(ex.Message);
-                }
-            }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return _errorService.HandleException(ex);
             }
         }
     }

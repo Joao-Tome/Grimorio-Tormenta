@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Grimorio_Tormenta_Back_End.Config.Services;
 using GrimorioTormenta.Intefaces.Conversor;
 using GrimorioTormenta.Intefaces.Instancia;
 using GrimorioTormenta.Intefaces.Services;
@@ -18,12 +19,14 @@ namespace Grimorio_Tormenta_Back_End.Controllers
         private readonly IGrupoInstancia _instancia;
         private readonly IPessoaServices _pessoaService;
         private readonly IGrupoConversor _grupoConversor;
+        private readonly ErrorService _errorService;
 
-        public GrupoController(IGrupoInstancia grupoInstancia, IPessoaServices pessoaService, IGrupoConversor grupoConversor)
+        public GrupoController(IGrupoInstancia grupoInstancia, IPessoaServices pessoaService, IGrupoConversor grupoConversor, ErrorService errorService)
         {
             _pessoaService = pessoaService;
             _instancia = grupoInstancia;
             _grupoConversor = grupoConversor;
+            _errorService = errorService;
         }
 
         [HttpGet, Authorize]
@@ -37,20 +40,9 @@ namespace Grimorio_Tormenta_Back_End.Controllers
 
                 return Ok(_grupoConversor.ConverteToViewList(grupos));
             }
-            catch (ValidationException ex)
-            {
-                if (ex.Errors.Any())
-                {
-                    return BadRequest(ex.Errors);
-                }
-                else
-                {
-                    return BadRequest(ex.Message);
-                }
-            }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return _errorService.HandleException(ex);
             }
         }
 
@@ -67,18 +59,11 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             }
             catch (ValidationException ex)
             {
-                if (ex.Errors.Any())
-                {
-                    return BadRequest(ex.Errors);
-                }
-                else
-                {
-                    return BadRequest(ex.Message);
-                }
+                return _errorService.HandleValidationException(ex);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return _errorService.HandleException(ex);
             }
         }
 
@@ -94,18 +79,11 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             }
             catch (ValidationException ex)
             {
-                if (ex.Errors.Any())
-                {
-                    return BadRequest(ex.Errors);
-                }
-                else
-                {
-                    return BadRequest(ex.Message);
-                }
+                return _errorService.HandleValidationException(ex);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return _errorService.HandleException(ex);
             }
 
         }
@@ -119,20 +97,13 @@ namespace Grimorio_Tormenta_Back_End.Controllers
 
                 return _instancia.Alterar(obj, pessoa);
             }
-            catch(ValidationException ex)
+            catch (ValidationException ex)
             {
-                if (ex.Errors.Any())
-                {
-                    return BadRequest(ex.Errors);
-                }
-                else
-                {
-                    return BadRequest(ex.Message);
-                }
+                return _errorService.HandleValidationException(ex);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return _errorService.HandleException(ex);
             }
         }
 
@@ -147,8 +118,7 @@ namespace Grimorio_Tormenta_Back_End.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-                throw;
+                return _errorService.HandleException(ex);
             }
         }
 
